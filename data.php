@@ -19,6 +19,15 @@ $hasil = mysqli_query($koneksi, $sql);
 <head>
     <meta charset="UTF-8">
     <title>Data Peminjaman Perpustakaan</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1 { color: #1f3864; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #999; padding: 8px; text-align: left; }
+        th { background: #1f3864; color: #fff; }
+        .gagal { background: #fdecea; border-left: 5px solid #c0392b;
+                 padding: 10px; }
+    </style>
 </head>
 <body>
     <h1>Data Peminjaman Perpustakaan</h1>

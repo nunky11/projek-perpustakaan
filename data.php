@@ -6,12 +6,9 @@
 require_once "koneksi.php";
 
 // Ambil data peminjaman beserta nama anggota dan judul buku
-$sql = "SELECT p.id_peminjaman, a.no_anggota, a.nama_lengkap, b.judul,
-               p.tanggal_pinjam, p.tanggal_kembali, p.status
-        FROM peminjaman p
-        JOIN anggota a ON p.no_anggota = a.no_anggota
-        JOIN buku b    ON p.id_buku = b.id_buku
-        ORDER BY p.tanggal_pinjam DESC";
+$sql = "SELECT *
+        FROM anggota 
+        ORDER BY id DESC";
 $hasil = mysqli_query($koneksi, $sql);
 ?>
 <!DOCTYPE html>
@@ -19,7 +16,7 @@ $hasil = mysqli_query($koneksi, $sql);
 <head>
     <meta charset="UTF-8">
     <title>Data Peminjaman Perpustakaan</title>
-    <style>
+   <style>
         body { font-family: Arial, sans-serif; margin: 40px; }
         h1 { color: #1f3864; }
         table { border-collapse: collapse; width: 100%; }
@@ -45,23 +42,36 @@ $hasil = mysqli_query($koneksi, $sql);
 
         <table>
             <tr>
-                <th>No</th>
-                <th>No. Anggota</th>
-                <th>Nama Anggota</th>
-                <th>Judul Buku</th>
-                <th>Tgl Pinjam</th>
-                <th>Tgl Kembali</th>
-                <th>Status</th>
+                <th>no</th></th>
+                <th>id</th>
+                <th>No Anggota</th>
+                <th>Nama Lengkap</th>
+                <th>Email</th>
+                <th>No HP</th>
+                <th>Jenis Anggota</th>
+                <th>Alamat</th>
+                <th>Aksi</th>
+                
             </tr>
             <?php $no = 1; while ($row = mysqli_fetch_assoc($hasil)) { ?>
             <tr>
                 <td><?php echo $no++; ?></td>
+                <td><?php echo htmlspecialchars($row["id"]); ?></td>
                 <td><?php echo htmlspecialchars($row["no_anggota"]); ?></td>
                 <td><?php echo htmlspecialchars($row["nama_lengkap"]); ?></td>
-                <td><?php echo htmlspecialchars($row["judul"]); ?></td>
-                <td><?php echo htmlspecialchars($row["tanggal_pinjam"]); ?></td>
-                <td><?php echo htmlspecialchars($row["tanggal_kembali"] ?? "-"); ?></td>
-                <td><?php echo htmlspecialchars($row["status"]); ?></td>
+                <td><?php echo htmlspecialchars($row["email"]); ?></td>
+                <td><?php echo htmlspecialchars($row["no_hp"]); ?></td>
+                <td><?php echo htmlspecialchars($row["jenis_anggota"]); ?></td>
+                <td><?php echo htmlspecialchars($row["alamat"]); ?></td>
+                
+                <td>
+                    <a href="edit_anggota.php?id=<?php echo (int) $row['id']; ?>">Edit</a>
+                    <form action="hapus_anggota.php" method="POST"
+                            onsubmit="return confirm('Yakin ingin menghapus data ini?');">
+                        <input type="hidden" name="id" value="<?= $row["id"]; ?>">
+                        <button type="submit">Hapus</button>
+                    </form>
+                 </td>
             </tr>
             <?php } ?>
         </table>
